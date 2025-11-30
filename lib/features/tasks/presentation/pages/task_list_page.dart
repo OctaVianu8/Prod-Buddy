@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../app/routes.dart';
 // import '../../domain/task_usecases.dart';
 // import '../widgets/task_card.dart';
 
@@ -16,7 +17,7 @@ class TaskListPage extends StatefulWidget {
 class _TaskListPageState extends State<TaskListPage> {
   // TODO: Inject TaskUseCases via provider/dependency injection
   // TODO: Implement state management (Provider, Riverpod, Bloc, etc.)
-  
+
   @override
   void initState() {
     super.initState();
@@ -48,19 +49,16 @@ class _TaskListPageState extends State<TaskListPage> {
       body: Column(
         children: [
           // TODO: Add statistics card showing completion rate, overdue tasks, etc.
-          
+
           // TODO: Add filter chips (All, Active, Completed)
-          
+
           // Task list
-          Expanded(
-            child: _buildTaskList(),
-          ),
+          Expanded(child: _buildTaskList()),
         ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // TODO: Navigate to AddTaskPage
-          // AppRoutes.navigateToAddTask(context);
+          AppRoutes.navigateToAddTask(context);
         },
         child: const Icon(Icons.add),
       ),
@@ -71,7 +69,7 @@ class _TaskListPageState extends State<TaskListPage> {
     // TODO: Replace with actual task loading from repository
     // TODO: Handle loading, empty, and error states
     // TODO: Use ListView.builder with TaskCard widgets
-    
+
     return const Center(
       child: Text(
         'No tasks yet.\nTap + to add your first task!',
@@ -79,7 +77,7 @@ class _TaskListPageState extends State<TaskListPage> {
         style: TextStyle(fontSize: 16, color: Colors.grey),
       ),
     );
-    
+
     // Future implementation:
     // return ListView.builder(
     //   itemCount: tasks.length,

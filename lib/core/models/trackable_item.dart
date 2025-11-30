@@ -1,56 +1,66 @@
-/// Base abstract class for all items that can be tracked in the app.
+import 'package:hive/hive.dart';
+
+/// Base class for all trackable items in the application.
 ///
-/// This includes tasks, events, reminders, and any future trackable entities.
-/// Provides common properties like ID, title, description, and timestamps.
-abstract class TrackableItem {
-  /// Unique identifier for this item.
+/// This abstract class provides common fields and functionality for items
+/// that need to be tracked, such as tasks, events, or habits.
+@HiveType(typeId: 0)
+abstract class TrackableItem extends HiveObject {
+  /// Unique identifier for the trackable item
+  @HiveField(0)
   final String id;
 
-  /// Display title/name for this item.
+  /// Title or name of the trackable item
+  @HiveField(1)
   final String title;
 
-  /// Optional detailed description.
-  final String? description;
+  /// Detailed description of the trackable item
+  @HiveField(2)
+  final String description;
 
-  /// When this item was created.
+  /// Timestamp when the item was created
+  @HiveField(3)
   final DateTime createdAt;
 
-  /// Optional deadline for completion.
-  final DateTime? deadline;
-
-  /// When this item was last updated.
+  /// Timestamp when the item was last updated
+  @HiveField(4)
   final DateTime updatedAt;
 
+  /// Creates a new [TrackableItem] with the specified fields.
+  ///
+  /// All parameters are required to ensure proper tracking of the item.
   TrackableItem({
     required this.id,
     required this.title,
-    this.description,
+    required this.description,
     required this.createdAt,
-    this.deadline,
     required this.updatedAt,
   });
 
-  /// Convert to a map for storage/serialization.
-  /// Subclasses should override this and call super.toMap().
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'title': title,
-      'description': description,
-      'createdAt': createdAt.toIso8601String(),
-      'deadline': deadline?.toIso8601String(),
-      'updatedAt': updatedAt.toIso8601String(),
-    };
+  @override
+  String toString() {
+    return 'TrackableItem{id: $id, title: $title, description: $description, '
+        'createdAt: $createdAt, updatedAt: $updatedAt}';
   }
 
-  /// Create a copy with modified fields.
-  /// Subclasses should override this with their specific type.
-  TrackableItem copyWith({
-    String? id,
-    String? title,
-    String? description,
-    DateTime? createdAt,
-    DateTime? deadline,
-    DateTime? updatedAt,
-  });
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is TrackableItem &&
+        other.id == id &&
+        other.title == title &&
+        other.description == description &&
+        other.createdAt == createdAt &&
+        other.updatedAt == updatedAt;
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode ^
+        title.hashCode ^
+        description.hashCode ^
+        createdAt.hashCode ^
+        updatedAt.hashCode;
+  }
 }

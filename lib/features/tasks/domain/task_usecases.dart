@@ -19,36 +19,36 @@ class TaskUseCases {
   /// Get all tasks sorted by urgency (most urgent first).
   Future<List<Task>> getTasksSortedByUrgency() async {
     final tasks = await _repository.getAllTasks();
-    
+
     // TODO: Use TimeUtils.calculateUrgency for each task
     tasks.sort((a, b) {
       final urgencyA = TimeUtils.calculateUrgency(
         priority: a.priority,
         deadline: a.deadline,
-        estimatedTime: a.estimatedTime,
+        estimatedTime: a.estimatedDuration,
       );
       final urgencyB = TimeUtils.calculateUrgency(
         priority: b.priority,
         deadline: b.deadline,
-        estimatedTime: b.estimatedTime,
+        estimatedTime: b.estimatedDuration,
       );
       return urgencyB.compareTo(urgencyA); // Descending order
     });
-    
+
     return tasks;
   }
 
   /// Get tasks sorted by deadline (soonest first).
   Future<List<Task>> getTasksSortedByDeadline() async {
     final tasks = await _repository.getAllTasks();
-    
+
     tasks.sort((a, b) {
       if (a.deadline == null && b.deadline == null) return 0;
       if (a.deadline == null) return 1; // Tasks without deadlines go last
       if (b.deadline == null) return -1;
       return a.deadline!.compareTo(b.deadline!);
     });
-    
+
     return tasks;
   }
 
@@ -75,13 +75,13 @@ class TaskUseCases {
   Future<List<Task>> getTasksDueToday() async {
     final tasks = await _repository.getAllTasks();
     final now = DateTime.now();
-    
+
     return tasks.where((task) {
       if (task.deadline == null) return false;
       final deadline = task.deadline!;
       return deadline.year == now.year &&
-             deadline.month == now.month &&
-             deadline.day == now.day;
+          deadline.month == now.month &&
+          deadline.day == now.day;
     }).toList();
   }
 
@@ -91,33 +91,14 @@ class TaskUseCases {
     return tasks.where((task) => TimeUtils.isOverdue(task.deadline)).toList();
   }
 
-  /// Get tasks by category.
-  Future<List<Task>> getTasksByCategory(String category) async {
-    final tasks = await _repository.getAllTasks();
-    return tasks.where((task) => task.category == category).toList();
-  }
-
-  /// Get all unique categories from existing tasks.
-  Future<List<String>> getAllCategories() async {
-    final tasks = await _repository.getAllTasks();
-    final categories = tasks
-        .map((task) => task.category)
-        .where((cat) => cat != null)
-        .cast<String>()
-        .toSet()
-        .toList();
-    categories.sort();
-    return categories;
-  }
-
   /// Search tasks by title or description.
   Future<List<Task>> searchTasks(String query) async {
     final tasks = await _repository.getAllTasks();
     final lowerQuery = query.toLowerCase();
-    
+
     return tasks.where((task) {
       final titleMatch = task.title.toLowerCase().contains(lowerQuery);
-      final descMatch = task.description?.toLowerCase().contains(lowerQuery) ?? false;
+      final descMatch = task.description.toLowerCase().contains(lowerQuery);
       return titleMatch || descMatch;
     }).toList();
   }
@@ -132,7 +113,7 @@ class TaskUseCases {
   Future<List<String>> getSchedulingSuggestions(Task task) async {
     // TODO: Implement Gemini API integration
     throw UnimplementedError('Gemini suggestions not yet implemented');
-    
+
     // Future implementation:
     // final suggestions = await _geminiService.getSuggestions(task);
     // return suggestions;
@@ -141,7 +122,7 @@ class TaskUseCases {
   /// Compute task statistics (total, completed, pending, etc.).
   Future<TaskStatistics> getStatistics() async {
     final tasks = await _repository.getAllTasks();
-    
+
     return TaskStatistics(
       totalTasks: tasks.length,
       completedTasks: tasks.where((t) => t.isCompleted).length,
@@ -151,8 +132,8 @@ class TaskUseCases {
         if (t.deadline == null) return false;
         final now = DateTime.now();
         return t.deadline!.year == now.year &&
-               t.deadline!.month == now.month &&
-               t.deadline!.day == now.day;
+            t.deadline!.month == now.month &&
+            t.deadline!.day == now.day;
       }).length,
     );
   }

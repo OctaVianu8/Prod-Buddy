@@ -3,7 +3,7 @@ import '../../../../app/theme.dart';
 
 /// Widget for visualizing task priority with colors and icons.
 ///
-/// Displays a colored badge with priority level (1-4).
+/// Displays a colored badge with priority level (1-5).
 class PriorityIndicator extends StatelessWidget {
   final int priority;
   final bool showLabel;
@@ -18,7 +18,7 @@ class PriorityIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     final color = AppTheme.getPriorityColor(priority);
     final label = AppTheme.getPriorityLabel(priority);
-    
+
     if (showLabel) {
       // Full label with text
       return Container(
@@ -42,10 +42,7 @@ class PriorityIndicator extends StatelessWidget {
       return Container(
         width: 32,
         height: 32,
-        decoration: BoxDecoration(
-          color: color,
-          shape: BoxShape.circle,
-        ),
+        decoration: BoxDecoration(color: color, shape: BoxShape.circle),
         child: Center(
           child: Text(
             priority.toString(),

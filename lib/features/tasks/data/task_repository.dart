@@ -47,7 +47,7 @@ class TaskRepository {
   Future<void> createTask(Task task) async {
     // Save locally first (offline-first)
     await _localDataSource.addTask(task);
-    
+
     // TODO: Queue for sync to Google Calendar
     // TODO: Handle sync failures and retry logic
   }
@@ -55,7 +55,7 @@ class TaskRepository {
   /// Update an existing task.
   Future<void> updateTask(Task task) async {
     await _localDataSource.updateTask(task);
-    
+
     // TODO: Queue for sync to Google Calendar
     // TODO: Implement conflict resolution if cloud version differs
   }
@@ -63,7 +63,7 @@ class TaskRepository {
   /// Delete a task.
   Future<void> deleteTask(String id) async {
     await _localDataSource.deleteTask(id);
-    
+
     // TODO: Queue deletion for Google Calendar sync
   }
 
@@ -73,13 +73,12 @@ class TaskRepository {
   Future<void> toggleTaskCompletion(String id) async {
     final task = await getTaskById(id);
     if (task == null) return;
-    
+
     final updatedTask = task.copyWith(
       isCompleted: !task.isCompleted,
-      completedAt: !task.isCompleted ? DateTime.now() : null,
       updatedAt: DateTime.now(),
     );
-    
+
     await updateTask(updatedTask);
   }
 

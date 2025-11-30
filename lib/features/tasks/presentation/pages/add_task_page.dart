@@ -13,16 +13,15 @@ class AddTaskPage extends StatefulWidget {
 
 class _AddTaskPageState extends State<AddTaskPage> {
   final _formKey = GlobalKey<FormState>();
-  
+
   // Form field controllers
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
-  
+
   // Form values
-  int _priority = 2; // Default to medium
+  int _priority = 3; // Default to medium (1-5 scale)
   DateTime? _deadline;
-  int? _estimatedTime;
-  String? _category;
+  int? _estimatedDuration;
 
   @override
   void dispose() {
@@ -38,10 +37,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
         title: const Text('New Task'),
         actions: [
           // Save button
-          IconButton(
-            icon: const Icon(Icons.check),
-            onPressed: _saveTask,
-          ),
+          IconButton(icon: const Icon(Icons.check), onPressed: _saveTask),
         ],
       ),
       body: SingleChildScrollView(
@@ -66,37 +62,46 @@ class _AddTaskPageState extends State<AddTaskPage> {
                 },
               ),
               const SizedBox(height: 16),
-              
+
               // Description field
               TextFormField(
                 controller: _descriptionController,
                 decoration: const InputDecoration(
-                  labelText: 'Description (optional)',
+                  labelText: 'Description',
                   hintText: 'Enter task description',
                 ),
                 maxLines: 3,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter a description';
+                  }
+                  return null;
+                },
               ),
               const SizedBox(height: 24),
-              
+
               // TODO: Add priority selector (dropdown or segmented buttons)
-              Text('Priority: $_priority', style: const TextStyle(fontSize: 16)),
+              Text(
+                'Priority: $_priority',
+                style: const TextStyle(fontSize: 16),
+              ),
               const SizedBox(height: 16),
-              
+
               // TODO: Add deadline picker
               ListTile(
                 leading: const Icon(Icons.calendar_today),
-                title: Text(_deadline == null 
-                    ? 'Set deadline' 
-                    : 'Deadline: ${_deadline!.toString()}'),
+                title: Text(
+                  _deadline == null
+                      ? 'Set deadline'
+                      : 'Deadline: ${_deadline!.toString()}',
+                ),
                 onTap: _pickDeadline,
               ),
               const SizedBox(height: 16),
-              
-              // TODO: Add estimated time picker
-              // TODO: Add category selector/input
-              
+
+              // TODO: Add estimated duration picker
               const SizedBox(height: 32),
-              
+
               // Save button
               SizedBox(
                 width: double.infinity,
@@ -123,7 +128,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
       firstDate: DateTime.now(),
       lastDate: DateTime.now().add(const Duration(days: 365)),
     );
-    
+
     if (date != null) {
       // TODO: Also pick time
       setState(() {
@@ -136,28 +141,25 @@ class _AddTaskPageState extends State<AddTaskPage> {
     if (!_formKey.currentState!.validate()) {
       return;
     }
-    
+
     // TODO: Create Task object with IdGenerator
     // TODO: Call TaskUseCases.repository.createTask()
     // TODO: Navigate back to task list
-    
+
     // final task = Task(
     //   id: IdGenerator.generate(),
     //   title: _titleController.text,
-    //   description: _descriptionController.text.isEmpty 
-    //       ? null 
-    //       : _descriptionController.text,
+    //   description: _descriptionController.text,
     //   createdAt: DateTime.now(),
     //   updatedAt: DateTime.now(),
     //   priority: _priority,
     //   deadline: _deadline,
-    //   estimatedTime: _estimatedTime,
-    //   category: _category,
+    //   estimatedDuration: _estimatedDuration,
     // );
-    
+
     // await _taskUseCases.repository.createTask(task);
     // AppRoutes.navigateBack(context);
-    
+
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Task creation not yet implemented')),
     );

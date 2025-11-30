@@ -6,10 +6,7 @@ import 'package:flutter/material.dart';
 class TaskDetailsPage extends StatefulWidget {
   final String? taskId;
 
-  const TaskDetailsPage({
-    super.key,
-    required this.taskId,
-  });
+  const TaskDetailsPage({super.key, required this.taskId});
 
   @override
   State<TaskDetailsPage> createState() => _TaskDetailsPageState();
@@ -18,7 +15,7 @@ class TaskDetailsPage extends StatefulWidget {
 class _TaskDetailsPageState extends State<TaskDetailsPage> {
   // TODO: Inject TaskUseCases
   // TODO: Load task data by ID
-  
+
   @override
   void initState() {
     super.initState();
@@ -29,7 +26,7 @@ class _TaskDetailsPageState extends State<TaskDetailsPage> {
   Widget build(BuildContext context) {
     // TODO: Replace with actual task loading
     // TODO: Handle loading, error, and not-found states
-    
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Task Details'),
@@ -61,11 +58,9 @@ class _TaskDetailsPageState extends State<TaskDetailsPage> {
     // TODO: Load and display actual task data
     // TODO: Show all task fields (title, description, priority, deadline, etc.)
     // TODO: Make fields editable or navigate to edit page
-    
-    return const Center(
-      child: Text('Task details will appear here'),
-    );
-    
+
+    return const Center(child: Text('Task details will appear here'));
+
     // Future implementation:
     // return Column(
     //   crossAxisAlignment: CrossAxisAlignment.start,
@@ -83,8 +78,7 @@ class _TaskDetailsPageState extends State<TaskDetailsPage> {
     //         ],
     //       ),
     //     const SizedBox(height: 16),
-    //     if (task.description != null)
-    //       Text(task.description!),
+    //     Text(task.description),
     //     // TODO: Add more fields
     //   ],
     // );

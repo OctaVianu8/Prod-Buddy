@@ -54,33 +54,37 @@ class AppTheme {
     );
   }
 
-  /// Priority color mapping for tasks
+  /// Priority color mapping for tasks (1-5 scale)
   static Color getPriorityColor(int priority) {
     switch (priority) {
       case 1:
         return Colors.green; // Low priority
       case 2:
-        return Colors.blue; // Medium priority
+        return Colors.blue; // Medium-Low priority
       case 3:
-        return Colors.orange; // High priority
+        return Colors.orange; // Medium priority
       case 4:
-        return Colors.red; // Urgent
+        return Colors.deepOrange; // High priority
+      case 5:
+        return Colors.red; // Critical
       default:
         return Colors.grey;
     }
   }
 
-  /// Get priority label
+  /// Get priority label (1-5 scale)
   static String getPriorityLabel(int priority) {
     switch (priority) {
       case 1:
         return 'Low';
       case 2:
-        return 'Medium';
+        return 'Medium-Low';
       case 3:
-        return 'High';
+        return 'Medium';
       case 4:
-        return 'Urgent';
+        return 'High';
+      case 5:
+        return 'Critical';
       default:
         return 'Unknown';
     }

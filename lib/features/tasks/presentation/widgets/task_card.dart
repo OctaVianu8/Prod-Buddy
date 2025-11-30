@@ -75,8 +75,7 @@ class TaskCard extends StatelessWidget {
                         ],
                       ),
 
-                    // TODO: Add category tag if present
-                    // TODO: Add estimated time display
+                    // TODO: Add estimated duration display
                   ],
                 ),
               ),
