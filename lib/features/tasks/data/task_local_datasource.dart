@@ -18,19 +18,12 @@ class TaskLocalDataSource {
 
   /// Get all tasks from local storage.
   Future<List<Task>> getAllTasks() async {
-    // TODO: Implement retrieval logic
-    // Return all tasks from the Hive box
     return _taskBox.values.toList();
   }
 
   /// Get a single task by ID.
   Future<Task?> getTaskById(String id) async {
-    // TODO: Implement lookup logic
-    // Search for task with matching ID
-    return _taskBox.values.firstWhere(
-      (task) => task.id == id,
-      orElse: () => throw Exception('Task not found'),
-    );
+    return _taskBox.get(id);
   }
 
   /// Add a new task to local storage.
