@@ -98,7 +98,8 @@ class TaskUseCases {
 
     return tasks.where((task) {
       final titleMatch = task.title.toLowerCase().contains(lowerQuery);
-      final descMatch = task.description.toLowerCase().contains(lowerQuery);
+      final descMatch =
+          task.description?.toLowerCase().contains(lowerQuery) ?? false;
       return titleMatch || descMatch;
     }).toList();
   }

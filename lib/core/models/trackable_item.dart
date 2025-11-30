@@ -14,9 +14,9 @@ abstract class TrackableItem extends HiveObject {
   @HiveField(1)
   final String title;
 
-  /// Detailed description of the trackable item
+  /// Brief description or notes about this item (optional)
   @HiveField(2)
-  final String description;
+  final String? description;
 
   /// Timestamp when the item was created
   @HiveField(3)
