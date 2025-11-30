@@ -95,14 +95,17 @@ class TimeUtils {
     return '${hours}h ${remainingMinutes}m';
   }
 
-  /// Calculate urgency score based on deadline proximity and priority.
+  /// Calculate urgency score for a task based on priority, deadline, and estimated time.
   ///
-  /// Returns a score from 0.0 to 1.0 where 1.0 is most urgent.
-  /// TODO: Fine-tune the urgency formula based on user feedback.
+  /// Returns a score from 0.0 to 100.0 where higher values indicate more urgent tasks.
+  /// Factors considered:
+  /// - Priority (1-5 scale)
+  /// - Time until deadline
+  /// - Estimated time to complete (in hours)
   static double calculateUrgency({
     required int priority,
     DateTime? deadline,
-    int? estimatedTime,
+    double? estimatedTime,
   }) {
     // Base urgency from priority (1-4 maps to 0.25-1.0)
     double urgency = priority / 4.0;

@@ -4,16 +4,16 @@ import 'trackable_item.dart';
 /// Represents a task with deadline, estimated duration, priority, and completion status.
 ///
 /// Extends [TrackableItem] to add task-specific properties like priority level (1-5),
-/// estimated duration, completion status, and optional Google Calendar event integration.
+/// estimated duration (in hours), completion status, and optional Google Calendar event integration.
 @HiveType(typeId: 1)
 class Task extends TrackableItem {
   /// Optional deadline for when this task should be completed
   @HiveField(5)
   final DateTime? deadline;
 
-  /// Estimated duration to complete this task (in minutes)
+  /// Estimated duration to complete this task (in hours)
   @HiveField(6)
-  final int? estimatedDuration;
+  final double? estimatedDuration;
 
   /// Priority level from 1 (lowest) to 5 (highest)
   @HiveField(7)
@@ -29,13 +29,13 @@ class Task extends TrackableItem {
 
   /// Creates a new [Task] with the specified fields.
   ///
-  /// Parameters from [TrackableItem] (id, title, description, createdAt, updatedAt)
-  /// are required. Task-specific fields like deadline and estimatedDuration are optional.
+  /// Parameters from [TrackableItem] (id, title, createdAt, updatedAt) are required.
+  /// Description and task-specific fields like deadline and estimatedDuration are optional.
   /// Priority defaults to 3 (medium) and isCompleted defaults to false.
   Task({
     required super.id,
     required super.title,
-    required super.description,
+    super.description,
     required super.createdAt,
     required super.updatedAt,
     this.deadline,
@@ -58,7 +58,7 @@ class Task extends TrackableItem {
     DateTime? createdAt,
     DateTime? updatedAt,
     DateTime? deadline,
-    int? estimatedDuration,
+    double? estimatedDuration,
     int? priority,
     bool? isCompleted,
     String? googleEventId,
