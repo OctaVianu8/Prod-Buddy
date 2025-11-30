@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'app/app.dart';
+import 'core/models/task.dart';
+import 'core/di/service_locator.dart';
 
 /// Main entry point for the Prod Buddy application.
 ///
@@ -12,10 +14,11 @@ void main() async {
   await Hive.initFlutter();
 
   // Register Hive adapters for custom types
-  // TODO: Uncomment after running build_runner to generate task.g.dart
-  // Hive.registerAdapter(TaskAdapter());
+  // Only concrete classes need adapters, not abstract base classes
+  Hive.registerAdapter(TaskAdapter());
 
-  // TODO: Initialize other services (analytics, crash reporting, etc.)
+  // Initialize dependency injection
+  await ServiceLocator.instance.initialize();
 
   runApp(const ProdBuddyApp());
 }

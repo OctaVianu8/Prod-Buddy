@@ -4,26 +4,20 @@ import 'package:hive/hive.dart';
 ///
 /// This abstract class provides common fields and functionality for items
 /// that need to be tracked, such as tasks, events, or habits.
-@HiveType(typeId: 0)
 abstract class TrackableItem extends HiveObject {
   /// Unique identifier for the trackable item
-  @HiveField(0)
   final String id;
 
   /// Title or name of the trackable item
-  @HiveField(1)
   final String title;
 
   /// Brief description or notes about this item (optional)
-  @HiveField(2)
   final String? description;
 
   /// Timestamp when the item was created
-  @HiveField(3)
   final DateTime createdAt;
 
   /// Timestamp when the item was last updated
-  @HiveField(4)
   final DateTime updatedAt;
 
   /// Creates a new [TrackableItem] with the specified fields.

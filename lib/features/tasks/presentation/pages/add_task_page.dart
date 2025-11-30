@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import '../../../../app/routes.dart';
 import '../../../../core/models/task.dart';
 import '../../../../core/services/id_generator.dart';
+import '../../../../core/di/service_locator.dart';
+import '../../data/task_repository.dart';
 
 /// Page with form for creating new tasks.
 class AddTaskPage extends StatefulWidget {
@@ -26,10 +28,14 @@ class _AddTaskPageState extends State<AddTaskPage> {
   TimeOfDay? _deadlineTime;
   double? _estimatedDuration;
 
+  // Repository instance
+  late TaskRepository _repository;
+
   @override
   void initState() {
     super.initState();
-    // TODO: In production, inject repository via dependency injection (Provider, GetIt, etc.)
+    // Get repository from service locator
+    _repository = ServiceLocator.instance.taskRepository;
   }
 
   @override
@@ -232,10 +238,9 @@ class _AddTaskPageState extends State<AddTaskPage> {
     );
 
     try {
-      // TODO: In production, inject repository via dependency injection
-      // For now, showing the pattern - repository would need to be accessible
-      // await _repository.createTask(task);
-
+      // Save task to repository
+      await _repository.createTask(task);
+      
       // Show success message
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(

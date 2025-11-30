@@ -1,6 +1,8 @@
 import 'package:hive/hive.dart';
 import 'trackable_item.dart';
 
+part 'task.g.dart';
+
 /// Represents a task with deadline, estimated duration, priority, and completion status.
 ///
 /// Extends [TrackableItem] to add task-specific properties like priority level (1-5),
